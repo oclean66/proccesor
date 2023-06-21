@@ -1,7 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("../loterias-1k-firebase-adminsdk-odqc2-16b10f1c07.json");
 const express = require("express");
-const { fullDate } = require("./configApi/api.js");
+const { fullDate } = require("./helpers/getters");
 const getResultadosApi = require("./helpers/getResultadosApi.js");
 
 admin.initializeApp({

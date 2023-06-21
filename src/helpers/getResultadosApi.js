@@ -1,8 +1,5 @@
-const { api } = require("../configApi/api");
-
-const range = (n, a, b) => {
-    return n >= a && n <= b;
-};
+const {fullDate, range} = require("./getters");
+const axios = require("axios");
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -41,9 +38,16 @@ const getResultadosApi = async () => {
         GRANJAZO: [],
     };
 
-    await api
-        .get()
-        .then(({ data }) => {
+    const url = "https://appcelmlt.com:6444/resultadostv";
+    const headers = {
+        "Content-Type": "application/json",
+        tok: "e7f3fe7a42028493652438c8f9766b6d7b849fb2",
+        desde: fullDate(),
+        hasta: fullDate(),
+        usu: "pepo",
+    };
+
+    await axios.get(url, {headers}).then(({ data }) => {
             data.forEach((resultado) => {
                 const { pro, pos } = resultado;
                 if (range(pos, 58, 75) || range(pos, 18, 20)) {
