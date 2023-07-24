@@ -1,10 +1,9 @@
 const fullDate = () => {
     const date = new Date();
-    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const month =
-        date.getMonth() < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${year}${month}${day}`;
+    const options = {  timeZone: 'America/Caracas' , year: "numeric", month: "2-digit", day: "2-digit" };
+    const fecha = date.toLocaleString("es-VE", options).split("/").reverse().join("");
+    console.log(fecha);
+    return fecha;
 };
 
 const range = (n, a, b) => {
