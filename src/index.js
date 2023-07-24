@@ -36,8 +36,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get("/updateLotery", (req, res) => {
-    subirNodos();
-    res.send('Do it')
+    // subirNodos();
+    // res.send('Do it')
+    const date = new Date()
+    res.send(String(`${date.getHours()} : ${date.getMinutes()}`))
 });
 
 app.listen(port, () => {
