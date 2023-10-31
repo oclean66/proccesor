@@ -18,10 +18,10 @@ const getResultadosApi = async () => {
     const resultados = {};
     const { data } = await axios.get(url, { headers });
     data.forEach((element) => {
-      let keyName = element.pro;
+      let keyName = element.pro.toUpperCase();
       //  Check if is Zodiacal
       const isSig = /ASTRAL|ZOD/.test(element.lot);
-      if (isSig) keyName += "_Sig";
+      if (isSig) keyName += "_SIG";
 
       if (resultados[keyName]) {
         resultados[keyName].push(element);
@@ -35,7 +35,5 @@ const getResultadosApi = async () => {
     console.log(`Ha ocurrido un error`);
   }
 };
-
-getResultadosApi();
 
 module.exports = getResultadosApi;
