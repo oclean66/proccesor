@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { fullDate } = require("./getters");
+// const fs = require("fs");
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -17,11 +18,16 @@ const getResultadosApi = async () => {
     const resultados = {};
     const { data } = await axios.get(url, { headers });
     data.forEach((element) => {
-      if (resultados[element.pro]) {
-        resultados[element.pro].push(element);
+      let keyName = element.pro;
+      //  Check if is Zodiacal
+      const isSig = /ASTRAL|ZOD/.test(element.lot);
+      if (isSig) keyName += "_Sig";
+
+      if (resultados[keyName]) {
+        resultados[keyName].push(element);
       } else {
-        resultados[element.pro] = [];
-        resultados[element.pro].push(element);
+        resultados[keyName] = [];
+        resultados[keyName].push(element);
       }
     });
     return resultados;
