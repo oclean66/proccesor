@@ -1,18 +1,15 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("../loterias-1k-firebase-adminsdk-odqc2-16b10f1c07.json");
 const express = require("express");
+const admin = require("firebase-admin");
+// FIREBASE PROJECT CREDENTIALS
+const serviceAccount = require("../firebase/loterias-1k-firebase-adminsdk-odqc2-16b10f1c07.json");
 const { fullDate } = require("./helpers/getters");
-const getResultadosApi = require("./helpers/getResultadosApi.js");
+const { getResultadosApi } = require("./helpers/services.js");
+const { PORT } = require("./config");
+const FIREBASE_CREDENTIALS = require("./config/firebase");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://loterias-1k-default-rtdb.firebaseio.com",
-  apiKey: "AIzaSyCA0OH7fKpze8NDArOp7vuYqsh9nMTEKFI",
-  authDomain: "loterias-1k.firebaseapp.com",
-  projectId: "loterias-1k",
-  storageBucket: "loterias-1k.appspot.com",
-  messagingSenderId: "86652922033",
-  appId: "1:86652922033:web:d94a3279c69a303c8a9a90",
+  ...FIREBASE_CREDENTIALS,
 });
 
 const db = admin.database();
@@ -33,13 +30,12 @@ const subirNodos = () => {
 };
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-app.get("/updateLotery", (req, res) => {
+app.get("/updateLotery", (_, res) => {
   subirNodos();
-  res.send("Do it");
+  res.send(`Loterias actualizadas - ${fullDate()}`);
 });
 
-app.listen(port, () => {
-  console.log(`Server on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server on port ${PORT}`);
 });

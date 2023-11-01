@@ -1,22 +1,20 @@
 const axios = require("axios");
 const { fullDate } = require("./getters");
-// const fs = require("fs");
+const { API_CREDENTIALS, API_URL } = require("../config");
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-const url = "https://appcelmlt.com:6444/resultadostv";
-const headers = {
-  "Content-Type": "application/json",
-  tok: "e7f3fe7a42028493652438c8f9766b6d7b849fb2",
-  desde: fullDate(),
-  hasta: fullDate(),
-  usu: "pepo",
-};
 
 const getResultadosApi = async () => {
   try {
     const resultados = {};
-    const { data } = await axios.get(url, { headers });
+    const date = fullDate();
+    const headers = {
+      ...API_CREDENTIALS,
+      desde: date,
+      hasta: date,
+    };
+
+    const { data } = await axios.get(API_URL, { headers });
     data.forEach((element) => {
       let keyName = element.pro.toUpperCase();
       //  Check if is Zodiacal
@@ -36,4 +34,4 @@ const getResultadosApi = async () => {
   }
 };
 
-module.exports = getResultadosApi;
+module.exports = { getResultadosApi };
